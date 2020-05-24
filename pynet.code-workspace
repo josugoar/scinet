@@ -1,0 +1,14 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.pythonPath": ".venv\\Scripts\\python.exe",
+        "python.formatting.autopep8Args": [
+            "--max-line-length",
+            "100"
+        ]
+    }
+}
