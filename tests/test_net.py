@@ -1,12 +1,15 @@
 import unittest
 
-from pynet.index import net
+from scinet import network as n
 
 
 class TestNet(unittest.TestCase):
 
     def setUp(self):
-        self._G = net()
+        self._G = n.net()
+
+    def test_init(self):
+        self.assertFalse(self._G)
 
     def test_add_edge(self):
         ...
@@ -15,10 +18,16 @@ class TestNet(unittest.TestCase):
         ...
 
     def test_add_vertex(self):
-        self.assertEqual(sum([1, 2, 3]), 6, "Should be 6")
+        V = 5
+        for v in range(V):
+            self._G[v]
+        self.assertEqual(len(self._G), V)
 
     def test_remove_vertex(self):
-        ...
+        self.test_add_vertex()
+        for v in self._G.vertices:
+            del self._G[v]
+            self.assertNotIn(v, self._G)
 
     def test_adjacent(self):
         ...
@@ -30,10 +39,19 @@ class TestNet(unittest.TestCase):
         ...
 
     def test_pop(self):
-        ...
+        default = ""
+        self.assertEqual(self._G.pop(0, default=default), default)
+        self.test_add_vertex()
+        for v in self._G.vertices:
+            u = self._G.pop(v)
+            self.assertEqual(v, u)
+            self.assertNotIn(v, self._G)
 
     def test_popitem(self):
-        ...
+        self.test_add_vertex()
+        for _ in self._G.vertices:
+            e = self._G.popitem()
+            # self.assert
 
     def test_iter(self):
         ...
@@ -42,13 +60,6 @@ class TestNet(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-# G = net()
-# # Add vertex
-# G[1]
-# print(f"Add vertex: {G}", end="\n\n")
-# # Remove vertex
-# del G[1]
-# print(f"Remove vertex: {G}", end="\n\n")
 # # Pop vertex
 # G[1]
 # print(G.pop(1))

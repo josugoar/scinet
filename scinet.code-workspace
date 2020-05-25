@@ -1,7 +1,9 @@
 {
     "extensions": {
         "recommendations": [
-            "ms-python.python"
+            "mikestead.dotenv",
+            "ms-python.python",
+            "njpwerner.autodocstring"
         ]
     },
     "folders": [
@@ -12,10 +14,10 @@
     "launch": {
         "configurations": [
             {
-                "name": "pynet",
+                "name": "scinet",
                 "type": "python",
                 "request": "launch",
-                "module": "pynet",
+                "module": "scinet",
             }
         ]
     },

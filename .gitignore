@@ -1,6 +1,6 @@
+.env
 build/
 dist/
-.env/
 .venv/
 __pycache__/
 scinet_JoshGoA.egg-info/
