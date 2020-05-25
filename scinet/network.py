@@ -9,9 +9,9 @@ class net(defaultdict):
         def __init__(self, G: "net") -> None:
             self.__G = G
 
-        # def __getitem__(self, v: Any) -> Any:
-        #     # TODO: Create with default_edge
-        #     ...
+        def __getitem__(self, v: Any) -> Any:
+            # TODO: Create with default_edge
+            super().__getitem__(v)
 
         def __setitem__(self, v: Any, e: Dict[str, Any]) -> None:
             super().__setitem__(v, e)

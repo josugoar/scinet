@@ -5,6 +5,8 @@ verify_ssl = true
 
 [scripts]
 build = "python setup.py sdist bdist_wheel"
+deploy-pypi = "python -m twine upload --repository pypi dist/*"
+deploy-testpypi = "python -m twine upload --repository testpypi dist/*"
 tests = "python -m unittest discover -v -s tests -p 'test_*.py'"
 
 [dev-packages]
@@ -12,6 +14,7 @@ autopep8 = "*"
 jupyter = "*"
 pylint = "*"
 rope = "*"
+twine = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
