@@ -2,7 +2,8 @@
     "extensions": {
         "recommendations": [
             "ms-python.python",
-            "njpwerner.autodocstring"
+            "njpwerner.autodocstring",
+            "lextudio.restructuredtext"
         ]
     },
     "folders": [
@@ -13,10 +14,10 @@
     "launch": {
         "configurations": [
             {
-                "name": "scinet",
+                "name": "Python",
                 "type": "python",
                 "request": "launch",
-                "module": "scinet",
+                "program": "${file}"
             }
         ]
     },

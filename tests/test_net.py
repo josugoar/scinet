@@ -1,27 +1,28 @@
 import unittest
 
-from scinet import network as n
+from scinet.core import network
 
 
 class TestNet(unittest.TestCase):
 
     def setUp(self):
-        self._G = n.net()
+        self._G = network()
 
     def test_init(self):
         self.assertFalse(self._G)
 
     def test_add_edge(self):
+        # for v in range(5):
+        #     self._G[v]
         ...
 
     def test_remove_edge(self):
         ...
 
     def test_add_vertex(self):
-        V = 5
-        for v in range(V):
+        for v in range(5):
             self._G[v]
-        self.assertEqual(len(self._G), V)
+            self.assertIn(v, self._G)
 
     def test_remove_vertex(self):
         self.test_add_vertex()
@@ -39,19 +40,17 @@ class TestNet(unittest.TestCase):
         ...
 
     def test_pop(self):
-        default = ""
-        self.assertEqual(self._G.pop(0, default=default), default)
+        self.assertEqual("", self._G.pop(0, default=""))
         self.test_add_vertex()
         for v in self._G.vertices:
-            u = self._G.pop(v)
-            self.assertEqual(v, u)
+            self.assertEqual(v, self._G.pop(v))
             self.assertNotIn(v, self._G)
 
     def test_popitem(self):
         self.test_add_vertex()
         for _ in self._G.vertices:
-            e = self._G.popitem()
-            # self.assert
+            self.assertNotIn(self._G.popitem(), self._G.items())
+        self.assertRaises(KeyError, self._G.popitem)
 
     def test_iter(self):
         ...
