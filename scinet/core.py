@@ -18,37 +18,49 @@ class network(defaultdict):
             defaultdict
         """
 
-        def __init__(self, network: "network", vertex: Any = None) -> None:
+        def __init__(self, network: "network", source_vertex: Any = None) -> None:
             """Initialize new adjacency list
 
             Arguments:
                 network {network}
+                source_vertex {Any}
             """
             super().__init__(lambda: network.default_edge)
             self.__network = network
-            self.vertex = vertex
+            self.__source_vertex = source_vertex
 
         @property
-        def vertex(self) -> Any:
-            return self.__vertex
+        def source_vertex(self) -> Any:
+            """Return adjacency list source vertex
 
-        @vertex.setter
-        def vertex(self, vertex: Any) -> None:
-            if not (vertex in self.__network or vertex is None):
-                raise KeyError("'vertex' must be in network...")
-            self.__vertex = vertex
+            Returns:
+                Any
+            """
+            return self.__source_vertex
 
-        def __getitem__(self, vertex: Any) -> Mapping[str, Any]:
+        @source_vertex.setter
+        def source_vertex(self, source_vertex: Any) -> None:
+            """Override previous source vertex adjacency list and set new adjacency list source vertex
+
+            Arguments:
+                source_vertex {Any}
+            """
+            if self.__source_vertex in self.__network:
+                self.__network[self.__source_vertex] = network.__adj(self.__network, self.__source_vertex)
+            self.__network[source_vertex] = self
+            self.__source_vertex = source_vertex
+
+        def __getitem__(self, target_vertex: Any) -> Mapping[str, Any]:
             """Create new vertex if vertex not in network and edge if edge not in adjacency list and return vertex edge
 
             Arguments:
-                vertex {Any}
+                target_vertex {Any}
 
             Returns:
                 Mapping[str, Any]
             """
-            self.__network[vertex]
-            return super().__getitem__(vertex)
+            self.__network[target_vertex]
+            return super().__getitem__(target_vertex)
 
         def __setitem__(self, vertex: Any, edge: Mapping[str, Any]) -> None:
             """Create new vertex if vertex not in network and edge if edge not in adjacency list and set vertex edge
@@ -67,9 +79,6 @@ class network(defaultdict):
             self.__network[vertex]
             super().__setitem__(vertex, edge)
 
-        def __add__(self, data: Mapping[str, Any]) -> None:
-            return None
-
         def __repr__(self) -> str:
             """Return adjacency list dictionary representation
 
@@ -85,7 +94,7 @@ class network(defaultdict):
             default_vertex {Mapping[str, Any]} -- (default: {dict()})
             default_edge {Mapping[str, Any]} -- (default: {dict()})
         """
-        super().__init__(lambda: self.__adj(self))
+        super().__init__(lambda vertex: network.__adj(self, vertex))
         self.__vertices = dict()
         self.__edges = dict()
         self.default_vertex = default_vertex
@@ -116,7 +125,7 @@ class network(defaultdict):
         return default
 
     def popitem(self) -> Tuple[Any, Mapping[str, Any]]:
-        """Return deleted vertex edge pair from network in insertion order
+        """Return deleted vertex edge pair from network in LIFO order
 
         Raises:
             KeyError: if not network
@@ -126,11 +135,10 @@ class network(defaultdict):
         """
         if not self:
             raise KeyError("Network must not be empty...")
-        vertex, edge = next(iter(self.items()))
+        vertex, edge = next(reversed(self.items()))
         del self[vertex]
         return vertex, edge
 
-    # TODO: pretify frozenset str
     def get_vertices(self, data: bool = False) -> Union[Mapping[Any, Mapping[str, Any]], List[Any]]:
         """Return network vertices
 
@@ -191,10 +199,9 @@ class network(defaultdict):
             TypeError: if default_vertex not of type Mapping[str, Any]
         """
         try:
-            dict(**default_vertex)
+            self.__default_vertex = dict(**default_vertex)
         except TypeError as e:
             raise TypeError("'default_edge' must be of type Mapping[str, Any]...") from e
-        self.__default_vertex = default_vertex
 
     @property
     def default_edge(self) -> Mapping[str, Any]:
@@ -216,10 +223,9 @@ class network(defaultdict):
             TypeError: if default_edge not of type Mapping[str, Any]
         """
         try:
-            dict(**default_edge)
+            self.__default_edge = dict(**default_edge)
         except TypeError as e:
             raise TypeError("'default_edge' must be of type Mapping[str, Any]...") from e
-        self.__default_edge = default_edge
 
     def __setitem__(self, vertex: Any, data: Mapping[str, Any]) -> None:
         """Create new vertex if not in network and set vertex data
@@ -232,16 +238,14 @@ class network(defaultdict):
             TypeError: if data not of type Mapping[str, Any]
         """
         try:
-            dict(**data)
+            if isinstance(dict(**data), self.__adj):
+                super().__setitem__(vertex, data)
+                self.__vertices[vertex] = self.__default_vertex
+            else:
+                self[vertex]
+                self.__vertices[vertex] = data
         except TypeError as e:
             raise TypeError("'data' must be of type Mapping[str, Any]...") from e
-        if isinstance(data, self.__adj):
-            super().__setitem__(vertex, data)
-            self.__vertices[vertex] = self.__default_vertex
-            data.vertex = vertex
-        else:
-            self[vertex]
-            self.__vertices[vertex] = data
 
     def __delitem__(self, vertex: Any) -> None:
         """Delete vertex from network
@@ -260,6 +264,12 @@ class network(defaultdict):
                     del self[source_vertex][target_vertex]
         except KeyError as e:
             raise KeyError("'vertex' must be in network...") from e
+
+    def __missing__(self, vertex):
+        if self.default_factory is None:
+            raise AttributeError("'default_factory' must not be None...")
+        self[vertex] = self.default_factory(vertex)  # pylint: disable=not-callable
+        return self[vertex]
 
     def __repr__(self) -> str:
         """Return network attribute representation
@@ -283,11 +293,10 @@ class network(defaultdict):
 
 if __name__ == "__main__":
     G = network(default_vertex=dict(name=""), default_edge=dict(weight=0))
-    G[1] = dict(name="JoshGoA")
-    G[2] = dict(name="Lol")
-    G[1][2] = dict(name="LAAol")
-    G[7][1]
-    G[2][1]
+    G[1]
+    G[2]
+    G[1][2]
+    # print(G.popitem())
     print(G)
-    # print(G.get_vertices(data=True))
-    # print(G.get_edges(data=True))
+    print(G.get_vertices(data=True))
+    print(G.get_edges(data=True))

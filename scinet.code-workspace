@@ -26,7 +26,7 @@
         "python.testing.unittestEnabled": true,
         "python.formatting.autopep8Args": [
             "--max-line-length",
-            "100"
+            "120"
         ],
         "python.testing.unittestArgs": [
             "-v",
