@@ -2,8 +2,7 @@ from collections import defaultdict, namedtuple
 from typing import Any, List, Mapping, FrozenSet, Set, Tuple, Union
 
 
-# TODO: Switch edge vertex order
-# TODO: add directed property to edge
+# TODO: Implement edge directed property
 class network(defaultdict):
     """Network science abstract data type
 
@@ -101,6 +100,10 @@ class network(defaultdict):
         self.default_vertex = default_vertex
         self.default_edge = default_edge
 
+    # TODO: Implement
+    def subgraph(self, vertices=list(), edges=list()):
+        pass
+
     def clear(self) -> None:
         """Remove network vertices and edges
         """
@@ -126,7 +129,7 @@ class network(defaultdict):
         return default
 
     def popitem(self) -> Tuple[Any, Mapping[str, Any]]:
-        """Return deleted vertex edge pair from network in LIFO order
+        """Return deleted vertex adjacency list pair from network in LIFO order
 
         Raises:
             KeyError: if not network
@@ -136,19 +139,19 @@ class network(defaultdict):
         """
         if not self:
             raise KeyError("'network' is empty...")
-        vertex, edge = next(reversed(self.items()))
+        vertex, adj = next(reversed(self.items()))
         del self[vertex]
-        return vertex, edge
+        return vertex, adj
 
-    # TODO: Override method
+    # TODO: Implement
     def setdefault(self, data, default=None):
         if data in self.values():
             return data
         return default
 
-    # TODO: Override method
-    def update(self, data=None):
-        super().update(data)
+    # TODO: Implement
+    def update(self, vertices=None, edges=None):
+        super().update()
 
     def get_vertices(self, data: bool = False) -> Union[Mapping[Any, Mapping[str, Any]], List[Any]]:
         """Return network vertices
@@ -311,18 +314,3 @@ class network(defaultdict):
 
     vertices = property(fget=get_vertices, fdel=del_vertices)
     edges = property(fget=get_edges, fdel=del_edges)
-
-
-if __name__ == "__main__":
-    G = network(default_vertex=dict(name=""), default_edge=dict(weight=0))
-    # G[1]
-    # G[2]
-    # G[1][2]
-    # del G[1][2]
-    G[1] = 5
-    # G[2][1]
-    # G[1].source_vertex = 2
-    # setdefault update
-    print(G)
-    # print(G.get_vertices(data=True))
-    # print(G.get_edges(data=True))
