@@ -7,6 +7,7 @@ verify_ssl = true
 build = "python setup.py sdist bdist_wheel"
 deploy-pypi = "python -m twine upload --repository pypi dist/*"
 deploy-testpypi = "python -m twine upload --repository testpypi dist/*"
+document = "python -m pydoc -w scinet.core"
 tests = "python -m unittest discover -v -s tests -p 'test_*.py'"
 
 [dev-packages]

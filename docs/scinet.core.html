@@ -61,56 +61,35 @@ Keyword&nbsp;Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;default_vertex&nbsp;{Mapping[str,&nbsp;Any]}&nbsp;--&nbsp;(default:&nbsp;{dict()})<br>
 &nbsp;&nbsp;&nbsp;&nbsp;default_edge&nbsp;{Mapping[str,&nbsp;Any]}&nbsp;--&nbsp;(default:&nbsp;{dict()})</tt></dd></dl>
 
+<dl><dt><a name="network-__missing__"><strong>__missing__</strong></a>(self, vertex: Any) -&gt; Mapping[str, Any]</dt><dd><tt>Create&nbsp;new&nbsp;adjacency&nbsp;list&nbsp;and&nbsp;return&nbsp;vertex&nbsp;adjacency&nbsp;list<br>
+&nbsp;<br>
+Arguments:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vertex&nbsp;{Any}<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;KeyError:&nbsp;if&nbsp;default_factory&nbsp;is&nbsp;None<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Mapping[str,&nbsp;Any]</tt></dd></dl>
+
 <dl><dt><a name="network-__repr__"><strong>__repr__</strong></a>(self) -&gt; str</dt><dd><tt>Return&nbsp;<a href="#network">network</a>&nbsp;attribute&nbsp;representation<br>
 &nbsp;<br>
 Returns:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;str</tt></dd></dl>
 
-<dl><dt><a name="network-__setitem__"><strong>__setitem__</strong></a>(self, vertex: Any, data: Mapping[Any, Any]) -&gt; None</dt><dd><tt>Create&nbsp;new&nbsp;vertex&nbsp;if&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a>&nbsp;and&nbsp;set&nbsp;vertex&nbsp;data<br>
+<dl><dt><a name="network-__setitem__"><strong>__setitem__</strong></a>(self, vertex: Any, data: Mapping[str, Any]) -&gt; None</dt><dd><tt>Create&nbsp;new&nbsp;vertex&nbsp;if&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a>&nbsp;and&nbsp;set&nbsp;vertex&nbsp;data<br>
 &nbsp;<br>
 Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;vertex&nbsp;{Any}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;{Mapping[Any,&nbsp;Any]}</tt></dd></dl>
+&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;{Mapping[str,&nbsp;Any]}<br>
+&nbsp;<br>
+Raises:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;TypeError:&nbsp;if&nbsp;data&nbsp;not&nbsp;of&nbsp;type&nbsp;Mapping[str,&nbsp;Any]</tt></dd></dl>
 
 <dl><dt><a name="network-__str__"><strong>__str__</strong></a>(self) -&gt; str</dt><dd><tt>Return&nbsp;<a href="#network">network</a>&nbsp;dictionary&nbsp;representation<br>
 &nbsp;<br>
 Returns:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;str</tt></dd></dl>
-
-<dl><dt><a name="network-add_edge"><strong>add_edge</strong></a>(self, source_vertex: Any, target_vertex: Any, **data: Any) -&gt; Mapping[str, Any]</dt><dd><tt>Add&nbsp;edge&nbsp;to&nbsp;<a href="#network">network</a>&nbsp;or&nbsp;update&nbsp;edge&nbsp;data&nbsp;if&nbsp;edge&nbsp;in&nbsp;<a href="#network">network</a><br>
-&nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;source_vertex&nbsp;{Any}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;target_vertex&nbsp;{Any}<br>
-&nbsp;<br>
-Keyword&nbsp;Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;{Any}<br>
-&nbsp;<br>
-Returns:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Mapping[str,&nbsp;Any]</tt></dd></dl>
-
-<dl><dt><a name="network-add_vertex"><strong>add_vertex</strong></a>(self, vertex: Any, **data: Any) -&gt; Mapping[str, Any]</dt><dd><tt>Add&nbsp;vertex&nbsp;to&nbsp;<a href="#network">network</a>&nbsp;or&nbsp;update&nbsp;vertex&nbsp;data&nbsp;if&nbsp;vertex&nbsp;in&nbsp;<a href="#network">network</a><br>
-&nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;vertex&nbsp;{Any}<br>
-&nbsp;<br>
-Keyword&nbsp;Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;{Any}<br>
-&nbsp;<br>
-Returns:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Mapping[str,&nbsp;Any]</tt></dd></dl>
-
-<dl><dt><a name="network-adjacent"><strong>adjacent</strong></a>(self, source_vertex: Any, target_vertex: Any) -&gt; bool</dt><dd><tt>Return&nbsp;whether&nbsp;source&nbsp;vertex&nbsp;and&nbsp;target&nbsp;vertex&nbsp;are&nbsp;adjacent<br>
-&nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;source_vertex&nbsp;{Any}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;target_vertex&nbsp;{Any}<br>
-&nbsp;<br>
-Raises:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;KeyError:&nbsp;if&nbsp;not&nbsp;(source_vertex&nbsp;in&nbsp;<a href="#network">network</a>&nbsp;and&nbsp;target_vertex&nbsp;in&nbsp;<a href="#network">network</a>)<br>
-&nbsp;<br>
-Returns:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;bool</tt></dd></dl>
 
 <dl><dt><a name="network-clear"><strong>clear</strong></a>(self) -&gt; None</dt><dd><tt>Remove&nbsp;<a href="#network">network</a>&nbsp;vertices&nbsp;and&nbsp;edges</tt></dd></dl>
 
@@ -118,7 +97,7 @@ Returns:<br>
 
 <dl><dt><a name="network-del_vertices"><strong>del_vertices</strong></a>(self) -&gt; None</dt><dd><tt>Delete&nbsp;<a href="#network">network</a>&nbsp;vertices&nbsp;data</tt></dd></dl>
 
-<dl><dt><a name="network-get_edges"><strong>get_edges</strong></a>(self, data: bool = False) -&gt; Union[Mapping[Tuple[Any, Any], Mapping[str, Any]], Set[Tuple[Any, Any]]]</dt><dd><tt>Return&nbsp;<a href="#network">network</a>&nbsp;edges<br>
+<dl><dt><a name="network-get_edges"><strong>get_edges</strong></a>(self, data: bool = False) -&gt; Union[Mapping[Tuple[Any, Any], Mapping[str, Any]], List[Tuple[Any, Any]]]</dt><dd><tt>Return&nbsp;<a href="#network">network</a>&nbsp;edges<br>
 &nbsp;<br>
 Keyword&nbsp;Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;{bool}&nbsp;--&nbsp;(default:&nbsp;{False})<br>
@@ -126,24 +105,13 @@ Keyword&nbsp;Arguments:<br>
 Returns:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Union[Mapping[Tuple[Any,&nbsp;Any],&nbsp;Mapping[str,&nbsp;Any]],&nbsp;Set[Tuple[Any,&nbsp;Any]]]</tt></dd></dl>
 
-<dl><dt><a name="network-get_vertices"><strong>get_vertices</strong></a>(self, data: bool = False) -&gt; Union[Mapping[Any, Mapping[str, Any]], FrozenSet[Any]]</dt><dd><tt>Return&nbsp;<a href="#network">network</a>&nbsp;vertices<br>
+<dl><dt><a name="network-get_vertices"><strong>get_vertices</strong></a>(self, data: bool = False) -&gt; Union[Mapping[Any, Mapping[str, Any]], List[Any]]</dt><dd><tt>Return&nbsp;<a href="#network">network</a>&nbsp;vertices<br>
 &nbsp;<br>
 Keyword&nbsp;Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;{bool}&nbsp;--&nbsp;(default:&nbsp;{False})<br>
 &nbsp;<br>
 Returns:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Union[Mapping[Any,&nbsp;Mapping[str,&nbsp;Any]],&nbsp;FrozenSet[Any]]</tt></dd></dl>
-
-<dl><dt><a name="network-neighbors"><strong>neighbors</strong></a>(self, vertex: Any) -&gt; Tuple[Tuple[Any, Any], ...]</dt><dd><tt>Return&nbsp;neighbors&nbsp;of&nbsp;vertex<br>
-&nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;vertex&nbsp;{Any}<br>
-&nbsp;<br>
-Raises:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;KeyError:&nbsp;if&nbsp;vertex&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a><br>
-&nbsp;<br>
-Returns:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Tuple[Tuple[Any,&nbsp;Any],&nbsp;...]</tt></dd></dl>
+&nbsp;&nbsp;&nbsp;&nbsp;Union[Mapping[Any,&nbsp;Mapping[str,&nbsp;Any]],&nbsp;List[Any]]</tt></dd></dl>
 
 <dl><dt><a name="network-pop"><strong>pop</strong></a>(self, vertex: Any, default: Any = None) -&gt; Any</dt><dd><tt>Return&nbsp;deleted&nbsp;vertex&nbsp;from&nbsp;<a href="#network">network</a>&nbsp;or&nbsp;default&nbsp;if&nbsp;vertex&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a><br>
 &nbsp;<br>
@@ -156,7 +124,7 @@ Keyword&nbsp;Arguments:<br>
 Returns:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Any</tt></dd></dl>
 
-<dl><dt><a name="network-popitem"><strong>popitem</strong></a>(self) -&gt; Tuple[Any, Mapping[str, Any]]</dt><dd><tt>Return&nbsp;deleted&nbsp;vertex&nbsp;edge&nbsp;pair&nbsp;from&nbsp;<a href="#network">network</a>&nbsp;in&nbsp;insertion&nbsp;order<br>
+<dl><dt><a name="network-popitem"><strong>popitem</strong></a>(self) -&gt; Tuple[Any, Mapping[str, Any]]</dt><dd><tt>Return&nbsp;deleted&nbsp;vertex&nbsp;edge&nbsp;pair&nbsp;from&nbsp;<a href="#network">network</a>&nbsp;in&nbsp;LIFO&nbsp;order<br>
 &nbsp;<br>
 Raises:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;KeyError:&nbsp;if&nbsp;not&nbsp;<a href="#network">network</a><br>
@@ -164,19 +132,14 @@ Raises:<br>
 Returns:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Tuple[Any,&nbsp;Mapping[str,&nbsp;Any]]</tt></dd></dl>
 
-<dl><dt><a name="network-remove_edge"><strong>remove_edge</strong></a>(self, source_vertex: Any, target_vertex: Any) -&gt; None</dt><dd><tt>Remove&nbsp;edge&nbsp;from&nbsp;<a href="#network">network</a><br>
+<dl><dt><a name="network-setdefault"><strong>setdefault</strong></a>(self, data, default=None)</dt><dd><tt>Insert&nbsp;key&nbsp;with&nbsp;a&nbsp;value&nbsp;of&nbsp;default&nbsp;if&nbsp;key&nbsp;is&nbsp;not&nbsp;in&nbsp;the&nbsp;dictionary.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;source_vertex&nbsp;{Any}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;target_vertex&nbsp;{Any}<br>
-&nbsp;<br>
-Raises<br>
-&nbsp;&nbsp;&nbsp;&nbsp;KeyError:&nbsp;if&nbsp;not&nbsp;(source_vertex&nbsp;in&nbsp;<a href="#network">network</a>&nbsp;and&nbsp;target_vertex&nbsp;in&nbsp;<a href="#network">network</a>)</tt></dd></dl>
+Return&nbsp;the&nbsp;value&nbsp;for&nbsp;key&nbsp;if&nbsp;key&nbsp;is&nbsp;in&nbsp;the&nbsp;dictionary,&nbsp;else&nbsp;default.</tt></dd></dl>
 
-<dl><dt><a name="network-remove_vertex"><strong>remove_vertex</strong></a>(self, vertex: Any) -&gt; None</dt><dd><tt>Remove&nbsp;vertex&nbsp;from&nbsp;<a href="#network">network</a><br>
-&nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;vertex&nbsp;{Any}</tt></dd></dl>
+<dl><dt><a name="network-update"><strong>update</strong></a>(self, data=None)</dt><dd><tt>D.<a href="#network-update">update</a>([E,&nbsp;]**F)&nbsp;-&gt;&nbsp;None.&nbsp;&nbsp;Update&nbsp;D&nbsp;from&nbsp;dict/iterable&nbsp;E&nbsp;and&nbsp;F.<br>
+If&nbsp;E&nbsp;is&nbsp;present&nbsp;and&nbsp;has&nbsp;a&nbsp;.<a href="#network-keys">keys</a>()&nbsp;method,&nbsp;then&nbsp;does:&nbsp;&nbsp;for&nbsp;k&nbsp;in&nbsp;E:&nbsp;D[k]&nbsp;=&nbsp;E[k]<br>
+If&nbsp;E&nbsp;is&nbsp;present&nbsp;and&nbsp;lacks&nbsp;a&nbsp;.<a href="#network-keys">keys</a>()&nbsp;method,&nbsp;then&nbsp;does:&nbsp;&nbsp;for&nbsp;k,&nbsp;v&nbsp;in&nbsp;E:&nbsp;D[k]&nbsp;=&nbsp;v<br>
+In&nbsp;either&nbsp;case,&nbsp;this&nbsp;is&nbsp;followed&nbsp;by:&nbsp;for&nbsp;k&nbsp;in&nbsp;F:&nbsp;&nbsp;D[k]&nbsp;=&nbsp;F[k]</tt></dd></dl>
 
 <hr>
 Readonly properties defined here:<br>
@@ -196,7 +159,7 @@ Keyword&nbsp;Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;{bool}&nbsp;--&nbsp;(default:&nbsp;{False})<br>
 &nbsp;<br>
 Returns:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Union[Mapping[Any,&nbsp;Mapping[str,&nbsp;Any]],&nbsp;FrozenSet[Any]]</tt></dd>
+&nbsp;&nbsp;&nbsp;&nbsp;Union[Mapping[Any,&nbsp;Mapping[str,&nbsp;Any]],&nbsp;List[Any]]</tt></dd>
 </dl>
 <hr>
 Data descriptors defined here:<br>
@@ -223,11 +186,6 @@ Methods inherited from <a href="collections.html#defaultdict">collections.defaul
 <dl><dt><a name="network-__copy__"><strong>__copy__</strong></a>(...)</dt><dd><tt>D.<a href="#network-copy">copy</a>()&nbsp;-&gt;&nbsp;a&nbsp;shallow&nbsp;copy&nbsp;of&nbsp;D.</tt></dd></dl>
 
 <dl><dt><a name="network-__getattribute__"><strong>__getattribute__</strong></a>(self, name, /)</dt><dd><tt>Return&nbsp;getattr(self,&nbsp;name).</tt></dd></dl>
-
-<dl><dt><a name="network-__missing__"><strong>__missing__</strong></a>(...)</dt><dd><tt><a href="#network-__missing__">__missing__</a>(key)&nbsp;#&nbsp;Called&nbsp;by&nbsp;__getitem__&nbsp;for&nbsp;missing&nbsp;key;&nbsp;pseudo-code:<br>
-if&nbsp;self.<strong>default_factory</strong>&nbsp;is&nbsp;None:&nbsp;raise&nbsp;KeyError((key,))<br>
-self[key]&nbsp;=&nbsp;value&nbsp;=&nbsp;self.<a href="#network-default_factory">default_factory</a>()<br>
-return&nbsp;value</tt></dd></dl>
 
 <dl><dt><a name="network-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt>Return&nbsp;state&nbsp;information&nbsp;for&nbsp;pickling.</tt></dd></dl>
 
@@ -270,15 +228,6 @@ Methods inherited from <a href="builtins.html#dict">builtins.dict</a>:<br>
 
 <dl><dt><a name="network-keys"><strong>keys</strong></a>(...)</dt><dd><tt>D.<a href="#network-keys">keys</a>()&nbsp;-&gt;&nbsp;a&nbsp;set-like&nbsp;object&nbsp;providing&nbsp;a&nbsp;view&nbsp;on&nbsp;D's&nbsp;keys</tt></dd></dl>
 
-<dl><dt><a name="network-setdefault"><strong>setdefault</strong></a>(self, key, default=None, /)</dt><dd><tt>Insert&nbsp;key&nbsp;with&nbsp;a&nbsp;value&nbsp;of&nbsp;default&nbsp;if&nbsp;key&nbsp;is&nbsp;not&nbsp;in&nbsp;the&nbsp;dictionary.<br>
-&nbsp;<br>
-Return&nbsp;the&nbsp;value&nbsp;for&nbsp;key&nbsp;if&nbsp;key&nbsp;is&nbsp;in&nbsp;the&nbsp;dictionary,&nbsp;else&nbsp;default.</tt></dd></dl>
-
-<dl><dt><a name="network-update"><strong>update</strong></a>(...)</dt><dd><tt>D.<a href="#network-update">update</a>([E,&nbsp;]**F)&nbsp;-&gt;&nbsp;None.&nbsp;&nbsp;Update&nbsp;D&nbsp;from&nbsp;dict/iterable&nbsp;E&nbsp;and&nbsp;F.<br>
-If&nbsp;E&nbsp;is&nbsp;present&nbsp;and&nbsp;has&nbsp;a&nbsp;.<a href="#network-keys">keys</a>()&nbsp;method,&nbsp;then&nbsp;does:&nbsp;&nbsp;for&nbsp;k&nbsp;in&nbsp;E:&nbsp;D[k]&nbsp;=&nbsp;E[k]<br>
-If&nbsp;E&nbsp;is&nbsp;present&nbsp;and&nbsp;lacks&nbsp;a&nbsp;.<a href="#network-keys">keys</a>()&nbsp;method,&nbsp;then&nbsp;does:&nbsp;&nbsp;for&nbsp;k,&nbsp;v&nbsp;in&nbsp;E:&nbsp;D[k]&nbsp;=&nbsp;v<br>
-In&nbsp;either&nbsp;case,&nbsp;this&nbsp;is&nbsp;followed&nbsp;by:&nbsp;for&nbsp;k&nbsp;in&nbsp;F:&nbsp;&nbsp;D[k]&nbsp;=&nbsp;F[k]</tt></dd></dl>
-
 <dl><dt><a name="network-values"><strong>values</strong></a>(...)</dt><dd><tt>D.<a href="#network-values">values</a>()&nbsp;-&gt;&nbsp;an&nbsp;object&nbsp;providing&nbsp;a&nbsp;view&nbsp;on&nbsp;D's&nbsp;values</tt></dd></dl>
 
 <hr>
@@ -301,8 +250,8 @@ Data and other attributes inherited from <a href="builtins.html#dict">builtins.d
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><strong>Any</strong> = typing.Any<br>
-<strong>Dict</strong> = typing.Dict<br>
 <strong>FrozenSet</strong> = typing.FrozenSet<br>
+<strong>List</strong> = typing.List<br>
 <strong>Mapping</strong> = typing.Mapping<br>
 <strong>Set</strong> = typing.Set<br>
 <strong>Tuple</strong> = typing.Tuple<br>
