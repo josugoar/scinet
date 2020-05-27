@@ -314,3 +314,8 @@ class network(defaultdict):
 
     vertices = property(fget=get_vertices, fdel=del_vertices)
     edges = property(fget=get_edges, fdel=del_edges)
+
+
+if __name__ == "__main__":
+    # Test
+    G = network()

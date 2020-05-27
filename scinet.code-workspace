@@ -2,8 +2,7 @@
     "extensions": {
         "recommendations": [
             "ms-python.python",
-            "njpwerner.autodocstring",
-            "lextudio.restructuredtext"
+            "njpwerner.autodocstring"
         ]
     },
     "folders": [
