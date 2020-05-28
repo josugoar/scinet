@@ -1,5 +1,8 @@
 from collections import defaultdict, namedtuple
-from typing import Any, List, Mapping, FrozenSet, Set, Tuple, Union
+from typing import Any, List, Mapping, Optional, Iterator, FrozenSet, Set, Tuple, Union
+
+
+__all__ = ["network"]
 
 
 # TODO: Implement edge directed property
@@ -241,8 +244,22 @@ class network(defaultdict):
         except TypeError as e:
             raise TypeError(f"'default_edge: {default_edge}' not of type 'Mapping[str, Any]'...") from e
 
+    # TODO: Implement
+    def __getitem__(self, vertex: Any) -> Mapping[str, Any]:
+        """Create new vertex if vertex not in network and return vertex
+
+        Arguments:
+            vertex {Any}
+
+        Returns:
+            Mapping[str, Any]
+        """
+        if isinstance(vertex, slice):
+            pass
+        return super().__getitem__(vertex)
+
     def __setitem__(self, vertex: Any, data: Mapping[str, Any]) -> None:
-        """Create new vertex if not in network and set vertex data
+        """Create new vertex if vertex not in network and set vertex data
 
         Arguments:
             vertex {Any}
@@ -296,6 +313,20 @@ class network(defaultdict):
         self[vertex] = self.default_factory(vertex)  # pylint: disable=not-callable
         return self[vertex]
 
+    # TODO: Implement
+    def __iter__(self, order: Optional[str] = None) -> Iterator[Any]:
+        """Return network vertex iterator
+
+        Keyword Arguments:
+            order {Optional[str]} -- (default: {None})
+
+        Returns:
+            Iterator[Any]
+        """
+        if order is not None:
+            pass
+        return super().__iter__()
+
     def __repr__(self) -> str:
         """Return network attribute representation
 
@@ -319,3 +350,6 @@ class network(defaultdict):
 if __name__ == "__main__":
     # Test
     G = network()
+    G[1]
+    for v in G:
+        print(v)

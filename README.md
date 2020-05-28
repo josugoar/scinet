@@ -16,37 +16,39 @@ $ pip install scinet
 
 Import **scinet**
 ```py
-from scinet.core import network
+import scinet as sn
 ```
 
 Initialize network
 ```py
-G = network()
+G = sn.network()
 ```
 
 Manipulate data
 
 * Add vertex
 ```py
-G[vertex := "JoshGoA"]
+G[vertex := "Python"] = dict(popularity=0.44)
 ```
 
 * Add edge
 ```py
-G[source_vertex := "JoshGoA"][target_vertex := "gvanrossum"]
-```
-
-* Set vertex and edge data
-```py
-G[vertex := "JoshGoA"] = dict(id=vertex)
-
-for source_vertex, target_vertex in enumerate(range(5)):
-    G[source_vertex][target_vertex] = dict(weight=source_vertex)
+G[source_vertex := "Python"][target_vertex := "C"] = dict(interpreter="CPython")
 ```
 
 * Range through vertex neighbors
 ```py
-for neighbor in G[vertex]
+for neighbor in G[vertex := "Python"]: pass
+```
+
+* Check vertex adjacency
+```py
+if target_vertex := "C" in G[source_vertex := "Python"]: pass
+```
+
+* Clear network
+```py
+G.clear()
 ```
 
 See [docs](docs/scinet.html) for further details.
@@ -54,3 +56,12 @@ See [docs](docs/scinet.html) for further details.
 ## Contributors
 
 * **JoshGoA** - *Main contributor* - [GitHub](https://github.com/JoshGoA)
+
+## TODO
+
+1. Multigraph
+> https://stackoverflow.com/questions/10664856/make-a-dictionary-with-duplicate-keys-in-python
+2. Undirected graph
+> Add "directed" mappable property to edge data
+3. Network visualization
+> Create "matplotlib.pyplot" supported API

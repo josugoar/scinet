@@ -1,6 +1,6 @@
 import unittest
 
-from scinet.core import network
+from scinet import network
 
 
 class TestNet(unittest.TestCase):
@@ -33,6 +33,11 @@ class TestNet(unittest.TestCase):
             del self._G[source_vertex][target_vertex]
             self.assertNotIn((source_vertex, target_vertex), self._G.edges)
 
+    def test_adjacent(self):
+        self.test_add_edge()
+        for source_vertex, target_vertex in self._G.edges:
+            self.assertIn(target_vertex, self._G[source_vertex])
+
     def test_clear(self):
         self.test_add_vertex()
         self.test_add_edge()
@@ -51,11 +56,6 @@ class TestNet(unittest.TestCase):
         for _ in self._G.vertices:
             self.assertNotIn(self._G.popitem(), self._G.items())
         self.assertRaises(KeyError, self._G.popitem)
-
-    def test_adjacent(self):
-        self.test_add_edge()
-        for source_vertex, target_vertex in self._G.edges:
-            self.assertIn(target_vertex, self._G[source_vertex])
 
 
 if __name__ == '__main__':
