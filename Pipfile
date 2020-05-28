@@ -4,11 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [scripts]
+test = "python -m unittest discover -v -s tests -p 'test_*.py'"
+doc = "python -m pydoc -w scinet.core"
 build = "python setup.py sdist bdist_wheel"
-deploy-pypi = "python -m twine upload --repository pypi dist/*"
-deploy-testpypi = "python -m twine upload --repository testpypi dist/*"
-document = "python -m pydoc -w scinet.core"
-tests = "python -m unittest discover -v -s tests -p 'test_*.py'"
+pypi = "python -m twine upload --repository pypi dist/*"
+testpypi = "python -m twine upload --repository testpypi dist/*"
 
 [dev-packages]
 autopep8 = "*"

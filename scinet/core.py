@@ -1,5 +1,5 @@
 from collections import defaultdict, namedtuple
-from typing import Any, List, Mapping, Optional, Iterator, FrozenSet, Set, Tuple, Union
+from typing import Any, Iterator, List, Mapping, Optional, Tuple, Union
 
 
 __all__ = ["network"]
@@ -29,6 +29,7 @@ class network(defaultdict):
                 source_vertex {Any}
             """
             super().__init__(lambda: network.default_edge)
+            network[source_vertex] = self
             self.__network = network
             self.__source_vertex = source_vertex
 
@@ -80,7 +81,12 @@ class network(defaultdict):
             except TypeError as e:
                 raise TypeError(f"'edge: {edge}' not of type 'Mapping[str, Any]'...") from e
             self.__network[vertex]
+            self.__network._network__edges[(self.__source_vertex, vertex)] = edge
             super().__setitem__(vertex, edge)
+
+        def __delitem__(self, vertex):
+            super().__delitem__(vertex)
+            del self.__network._network__edges[(self.__source_vertex, vertex)]
 
         def __repr__(self) -> str:
             """Return adjacency list dictionary representation
@@ -156,7 +162,7 @@ class network(defaultdict):
     def update(self, vertices=None, edges=None):
         super().update()
 
-    def get_vertices(self, data: bool = False) -> Union[Mapping[Any, Mapping[str, Any]], List[Any]]:
+    def vertices(self, data: bool = False) -> Union[Mapping[Any, Mapping[str, Any]], List[Any]]:
         """Return network vertices
 
         Keyword Arguments:
@@ -165,36 +171,18 @@ class network(defaultdict):
         Returns:
             Union[Mapping[Any, Mapping[str, Any]], List[Any]]
         """
-        return dict(self.__vertices) if data else list(self.__vertices.keys())
+        return dict(self.__vertices) if data else list(self.__vertices)
 
-    def del_vertices(self) -> None:
-        """Delete network vertices data
-        """
-        self.__vertices.update(dict.fromkeys(self.__vertices, self.__default_vertex))
-
-    # TODO: Fix
-    def get_edges(self, data: bool = False) -> Union[Mapping[Tuple[Any, Any], Mapping[str, Any]], List[Tuple[Any, Any]]]:
+    def edges(self, data: bool = False) -> Union[Mapping[Tuple[Any, Any], Mapping[str, Any]], List[Tuple[Any, Any]]]:
         """Return network edges
 
         Keyword Arguments:
             data {bool} -- (default: {False})
 
         Returns:
-            Union[Mapping[Tuple[Any, Any], Mapping[str, Any]], Set[Tuple[Any, Any]]]
+            Union[Mapping[Tuple[Any, Any], Mapping[str, Any]], List[Tuple[Any, Any]]]
         """
-        Edge = namedtuple("Edge", "source_vertex target_vertex")
-        edges = dict() if data else set()
-        for v, e in self.items():
-            for u in e:
-                edges.update({Edge(v, u): e[u]}) if data else edges.add(Edge(v, u))
-        return edges
-
-    def del_edges(self) -> None:
-        """Delete network edge data
-        """
-        # self.__edges.update(dict.fromkeys(self.__edges, self.__default_edge))
-        for edge in self.values():
-            edge.update(dict.fromkeys(edge, self.__default_edge))
+        return dict(self.__edges) if data else list(self.__edges)
 
     @property
     def default_vertex(self) -> Mapping[str, Any]:
@@ -290,7 +278,7 @@ class network(defaultdict):
         try:
             super().__delitem__(vertex)
             del self.__vertices[vertex]
-            for source_vertex, target_vertex in self.edges:
+            for source_vertex, target_vertex in self.edges():
                 if target_vertex is vertex:
                     del self[source_vertex][target_vertex]
         except KeyError as e:
@@ -310,8 +298,7 @@ class network(defaultdict):
         """
         if self.default_factory is None:
             raise KeyError(vertex)
-        self[vertex] = self.default_factory(vertex)  # pylint: disable=not-callable
-        return self[vertex]
+        return self.default_factory(vertex)  # pylint: disable=not-callable
 
     # TODO: Implement
     def __iter__(self, order: Optional[str] = None) -> Iterator[Any]:
@@ -343,13 +330,9 @@ class network(defaultdict):
         """
         return dict.__repr__(self)
 
-    vertices = property(fget=get_vertices, fdel=del_vertices)
-    edges = property(fget=get_edges, fdel=del_edges)
-
 
 if __name__ == "__main__":
-    # Test
     G = network()
     G[1]
-    for v in G:
-        print(v)
+    G[2][1]
+    print(G)

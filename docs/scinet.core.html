@@ -55,11 +55,27 @@ Arguments:<br>
 Raises:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;KeyError:&nbsp;if&nbsp;vertex&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a></tt></dd></dl>
 
+<dl><dt><a name="network-__getitem__"><strong>__getitem__</strong></a>(self, vertex: Any) -&gt; Mapping[str, Any]</dt><dd><tt>Create&nbsp;new&nbsp;vertex&nbsp;if&nbsp;vertex&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a>&nbsp;and&nbsp;return&nbsp;vertex<br>
+&nbsp;<br>
+Arguments:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vertex&nbsp;{Any}<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Mapping[str,&nbsp;Any]</tt></dd></dl>
+
 <dl><dt><a name="network-__init__"><strong>__init__</strong></a>(self, default_vertex: Mapping[str, Any] = {}, default_edge: Mapping[str, Any] = {}) -&gt; None</dt><dd><tt>Initialize&nbsp;new&nbsp;<a href="#network">network</a><br>
 &nbsp;<br>
 Keyword&nbsp;Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;default_vertex&nbsp;{Mapping[str,&nbsp;Any]}&nbsp;--&nbsp;(default:&nbsp;{dict()})<br>
 &nbsp;&nbsp;&nbsp;&nbsp;default_edge&nbsp;{Mapping[str,&nbsp;Any]}&nbsp;--&nbsp;(default:&nbsp;{dict()})</tt></dd></dl>
+
+<dl><dt><a name="network-__iter__"><strong>__iter__</strong></a>(self, order: Union[str, NoneType] = None) -&gt; Iterator[Any]</dt><dd><tt>Return&nbsp;<a href="#network">network</a>&nbsp;vertex&nbsp;iterator<br>
+&nbsp;<br>
+Keyword&nbsp;Arguments:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;order&nbsp;{Optional[str]}&nbsp;--&nbsp;(default:&nbsp;{None})<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Iterator[Any]</tt></dd></dl>
 
 <dl><dt><a name="network-__missing__"><strong>__missing__</strong></a>(self, vertex: Any) -&gt; Mapping[str, Any]</dt><dd><tt>Create&nbsp;new&nbsp;adjacency&nbsp;list&nbsp;and&nbsp;return&nbsp;vertex&nbsp;adjacency&nbsp;list<br>
 &nbsp;<br>
@@ -77,7 +93,7 @@ Returns:<br>
 Returns:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;str</tt></dd></dl>
 
-<dl><dt><a name="network-__setitem__"><strong>__setitem__</strong></a>(self, vertex: Any, data: Mapping[str, Any]) -&gt; None</dt><dd><tt>Create&nbsp;new&nbsp;vertex&nbsp;if&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a>&nbsp;and&nbsp;set&nbsp;vertex&nbsp;data<br>
+<dl><dt><a name="network-__setitem__"><strong>__setitem__</strong></a>(self, vertex: Any, data: Mapping[str, Any]) -&gt; None</dt><dd><tt>Create&nbsp;new&nbsp;vertex&nbsp;if&nbsp;vertex&nbsp;not&nbsp;in&nbsp;<a href="#network">network</a>&nbsp;and&nbsp;set&nbsp;vertex&nbsp;data<br>
 &nbsp;<br>
 Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;vertex&nbsp;{Any}<br>
@@ -124,7 +140,7 @@ Keyword&nbsp;Arguments:<br>
 Returns:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Any</tt></dd></dl>
 
-<dl><dt><a name="network-popitem"><strong>popitem</strong></a>(self) -&gt; Tuple[Any, Mapping[str, Any]]</dt><dd><tt>Return&nbsp;deleted&nbsp;vertex&nbsp;edge&nbsp;pair&nbsp;from&nbsp;<a href="#network">network</a>&nbsp;in&nbsp;LIFO&nbsp;order<br>
+<dl><dt><a name="network-popitem"><strong>popitem</strong></a>(self) -&gt; Tuple[Any, Mapping[str, Any]]</dt><dd><tt>Return&nbsp;deleted&nbsp;vertex&nbsp;adjacency&nbsp;list&nbsp;pair&nbsp;from&nbsp;<a href="#network">network</a>&nbsp;in&nbsp;LIFO&nbsp;order<br>
 &nbsp;<br>
 Raises:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;KeyError:&nbsp;if&nbsp;not&nbsp;<a href="#network">network</a><br>
@@ -136,7 +152,9 @@ Returns:<br>
 &nbsp;<br>
 Return&nbsp;the&nbsp;value&nbsp;for&nbsp;key&nbsp;if&nbsp;key&nbsp;is&nbsp;in&nbsp;the&nbsp;dictionary,&nbsp;else&nbsp;default.</tt></dd></dl>
 
-<dl><dt><a name="network-update"><strong>update</strong></a>(self, data=None)</dt><dd><tt>D.<a href="#network-update">update</a>([E,&nbsp;]**F)&nbsp;-&gt;&nbsp;None.&nbsp;&nbsp;Update&nbsp;D&nbsp;from&nbsp;dict/iterable&nbsp;E&nbsp;and&nbsp;F.<br>
+<dl><dt><a name="network-subgraph"><strong>subgraph</strong></a>(self, vertices=[], edges=[])</dt><dd><tt>#&nbsp;TODO:&nbsp;Implement</tt></dd></dl>
+
+<dl><dt><a name="network-update"><strong>update</strong></a>(self, vertices=None, edges=None)</dt><dd><tt>D.<a href="#network-update">update</a>([E,&nbsp;]**F)&nbsp;-&gt;&nbsp;None.&nbsp;&nbsp;Update&nbsp;D&nbsp;from&nbsp;dict/iterable&nbsp;E&nbsp;and&nbsp;F.<br>
 If&nbsp;E&nbsp;is&nbsp;present&nbsp;and&nbsp;has&nbsp;a&nbsp;.<a href="#network-keys">keys</a>()&nbsp;method,&nbsp;then&nbsp;does:&nbsp;&nbsp;for&nbsp;k&nbsp;in&nbsp;E:&nbsp;D[k]&nbsp;=&nbsp;E[k]<br>
 If&nbsp;E&nbsp;is&nbsp;present&nbsp;and&nbsp;lacks&nbsp;a&nbsp;.<a href="#network-keys">keys</a>()&nbsp;method,&nbsp;then&nbsp;does:&nbsp;&nbsp;for&nbsp;k,&nbsp;v&nbsp;in&nbsp;E:&nbsp;D[k]&nbsp;=&nbsp;v<br>
 In&nbsp;either&nbsp;case,&nbsp;this&nbsp;is&nbsp;followed&nbsp;by:&nbsp;for&nbsp;k&nbsp;in&nbsp;F:&nbsp;&nbsp;D[k]&nbsp;=&nbsp;F[k]</tt></dd></dl>
@@ -204,11 +222,7 @@ Methods inherited from <a href="builtins.html#dict">builtins.dict</a>:<br>
 
 <dl><dt><a name="network-__ge__"><strong>__ge__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self&gt;=value.</tt></dd></dl>
 
-<dl><dt><a name="network-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#network-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
-
 <dl><dt><a name="network-__gt__"><strong>__gt__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self&gt;value.</tt></dd></dl>
-
-<dl><dt><a name="network-__iter__"><strong>__iter__</strong></a>(self, /)</dt><dd><tt>Implement&nbsp;iter(self).</tt></dd></dl>
 
 <dl><dt><a name="network-__le__"><strong>__le__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self&lt;=value.</tt></dd></dl>
 
@@ -249,11 +263,5 @@ Data and other attributes inherited from <a href="builtins.html#dict">builtins.d
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>Any</strong> = typing.Any<br>
-<strong>FrozenSet</strong> = typing.FrozenSet<br>
-<strong>List</strong> = typing.List<br>
-<strong>Mapping</strong> = typing.Mapping<br>
-<strong>Set</strong> = typing.Set<br>
-<strong>Tuple</strong> = typing.Tuple<br>
-<strong>Union</strong> = typing.Union</td></tr></table>
+<td width="100%"><strong>__all__</strong> = ['network']</td></tr></table>
 </body></html>

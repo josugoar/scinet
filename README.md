@@ -57,7 +57,7 @@ See [docs](docs/scinet.html) for further details.
 
 * **JoshGoA** - *Main contributor* - [GitHub](https://github.com/JoshGoA)
 
-## TODO
+### TODO
 
 1. Multigraph
 > https://stackoverflow.com/questions/10664856/make-a-dictionary-with-duplicate-keys-in-python
