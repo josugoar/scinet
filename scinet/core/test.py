@@ -1,39 +1,63 @@
+from abc import ABCMeta
 from collections.abc import Mapping as Mappable
-from typing import Any, Iterable, Iterator, Mapping, Tuple, Union
+from typing import Any, Iterable, Iterator, Mapping, Tuple
 
 
-class network(Mappable):
+class StatefulMapping(Mappable, metaclass=ABCMeta):
 
     __slots__ = "_state"
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._state = dict()
 
-    def add_edges(self, e: Mapping[Tuple[Any, Any], Iterable[Any]], /) -> None:
-        for vertices, edges in e.items():
+    def clear(self):
+        self._state.clear()
+
+    def __iter__(self) -> Iterator[Any]:
+        return iter(self._state)
+
+    def __len__(self) -> int:
+        return len(self._state)
+
+    def __repr__(self) -> str:
+        return repr(self._state)
+
+
+class network(StatefulMapping):
+
+    __slots__ = "_edges", "_vertices"
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._edges = dict()
+        self._vertices = dict()
+
+    def add_edge(self, e: Iterable[Tuple[Tuple[Any, Any], Iterable[Any]]], /) -> None:
+        for vertices, edges in e:
             source_vertex, target_vertex = vertices
             if not (source_vertex in self._state and target_vertex in self._state):
                 raise KeyError
             for edge in edges:
                 try:
-                    self._state[source_vertex][target_vertex].append(edge)
+                    # TODO: Overhead
+                    self._state[source_vertex][target_vertex].add(edge)
                 except KeyError:
-                    self._state[source_vertex][target_vertex] = [edge]
+                    self._state[source_vertex][target_vertex] = {edge}
 
-    def add_vertices(self, v: Iterable[Any], /) -> None:
+    def add_vertex(self, v: Iterable[Any], /) -> None:
         for vertex in v:
             if vertex not in self._state:
                 self._state[vertex] = dict()
 
-    def remove_edges(self, e: Mapping[Tuple[Any, Any], Iterable[Any]], /) -> None:
-        for vertices, edges in e.items():
+    def remove_edge(self, e: Iterable[Tuple[Tuple[Any, Any], Iterable[Any]]], /) -> None:
+        for vertices, edges in e:
             source_vertex, target_vertex = vertices
             for edge in edges:
                 self._state[source_vertex][target_vertex].remove(edge)
             if not self._state[source_vertex][target_vertex]:
                 del self._state[source_vertex][target_vertex]
 
-    def remove_vertices(self, v: Iterable[Any], /) -> None:
+    def remove_vertex(self, v: Iterable[Any], /) -> None:
         for vertex in v:
             del self._state[vertex]
             for source_vertex, neighbors in self._state.items():
@@ -41,26 +65,23 @@ class network(Mappable):
                     if target_vertex is vertex:
                         del self._state[source_vertex][target_vertex]
 
-    def __getitem__(self, vertex):
+    def __getitem__(self, vertex: Any) -> Mapping[Any, Iterable[Any]]:
         return dict(self._state[vertex])
-
-    def __delitem__(self, vertex):
-        self.remove_vertices([vertex])
-
-    def __iter__(self):
-        return iter(self._state)
-
-    def __len__(self):
-        return len(self._state)
-
-    def __repr__(self):
-        return repr(self._state)
 
 
 if __name__ == "__main__":
-    G = network()
-    G.add_vertices([1, 2, 3])
-    G.add_edges({(1, 2): [1, 2], (3, 3): [1, 2, 3]})
-    # G.remove_edges({(1, 2): [1, 2]})
-    G.remove_vertices([1])
-    print(G)
+    import fileinput
+    import cProfile
+
+    gen = (((j, j), range(j)) for j in range(10000))
+
+    def run():
+        G = network()
+        G.add_vertex(range(10000))
+        G.add_edge(gen)
+
+    pr = cProfile.Profile()
+    pr.enable()
+    run()
+    pr.create_stats()
+    pr.print_stats(sort='time')
