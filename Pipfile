@@ -16,5 +16,7 @@ pylint = "*"
 rope = "*"
 twine = "*"
 
+[packages]
+
 [requires]
 python_version = "3.8"
