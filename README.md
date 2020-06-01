@@ -1,8 +1,10 @@
 # SCINET
 
-![Build](https://img.shields.io/badge/build-passing-blue) ![Author](https://img.shields.io/badge/author-JoshGoA-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![PyPi](https://img.shields.io/badge/pypi-v0.5.0-red) ![Python](https://img.shields.io/badge/python->=3.8-red)
+![Build](https://img.shields.io/badge/build-passing-blue) ![Author](https://img.shields.io/badge/author-JoshGoA-green) ![License](https://img.shields.io/badge/license-MIT-red) ![PyPi](https://img.shields.io/badge/pypi-v0.3.0-yellow) ![Python](https://img.shields.io/badge/python->=3.8-orange)
 
-Network science abstract data types.
+Graph theory abstract data type.
+
+**scinet.Graph** is designed upon the [graph (abstract data type)](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)) definition and functions as a bare bones skeletal graph data mapping, containing abstract vertices and edges.
 
 ## Installation
 
@@ -19,36 +21,41 @@ Import **scinet**
 import scinet as sn
 ```
 
-Initialize network
+Create graph
 ```py
-G = sn.network()
+G = sn.Graph()
 ```
 
 Manipulate data
 
-* Add vertex
+* add_vertex
 ```py
-G[vertex := "Python"] = dict(popularity=0.44)
+G.add_vertex(vertex := "foo")
 ```
 
-* Add edge
+* remove_vertex
 ```py
-G[source_vertex := "Python"][target_vertex := "C"] = dict(interpreter="CPython")
+G.remove_vertex(vertex := "foo")
 ```
 
-* Range through vertex neighbors
+* add_edge
 ```py
-for neighbor in G[vertex := "Python"]: pass
+G.add_edge(edge := "foobar", source_vertex="foo", target_vertex="bar")
 ```
 
-* Check vertex adjacency
+* remove_edge
 ```py
-if target_vertex := "C" in G[source_vertex := "Python"]: pass
+G.remove_edge(edge := "foobar", source_vertex="foo", target_vertex="bar")
 ```
 
-* Clear network
+* adjacent
 ```py
-G.clear()
+(target_vertex := "bar") in G[(source_vertex := "foo")]
+```
+
+* Neighbors
+```py
+G[(vertex := "foo")].keys()
 ```
 
 See [docs](docs/scinet.html) for further details.
@@ -59,9 +66,7 @@ See [docs](docs/scinet.html) for further details.
 
 ### TODO
 
-1. Multigraph
-> https://stackoverflow.com/questions/10664856/make-a-dictionary-with-duplicate-keys-in-python
-2. Undirected graph
+1. Undirected graph
 > Add "directed" mappable property to edge data
-3. Network visualization
+2. Network visualization
 > Create "matplotlib.pyplot" supported API

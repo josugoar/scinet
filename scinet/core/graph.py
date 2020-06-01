@@ -3,6 +3,9 @@ from typing import Any, Iterable, Mapping, Tuple, Union
 from warnings import warn
 
 
+__all__ = ["Graph"]
+
+
 class Graph(abc.Mapping):
 
     __slots__ = "_adj"
@@ -31,7 +34,7 @@ class Graph(abc.Mapping):
         except KeyError:
             warn(f"'{vertex=}' not in '{self.__class__.__name__}'...")
 
-    def remove_edge(self, edge: Any, source_vertex: Any, target_vertex: Any) -> None:
+    def remove_edge(self, edge: Any, /, source_vertex: Any, target_vertex: Any) -> None:
         try:
             self._adj[source_vertex][target_vertex].remove(edge)
             if not self._adj[source_vertex][target_vertex]:
@@ -39,7 +42,7 @@ class Graph(abc.Mapping):
         except KeyError:
             warn(f"'{edge=} not in '{self.__class__.__name__}'...")
 
-    def __getitem__(self, vertex: Any) -> Any:
+    def __getitem__(self, vertex: Any, /) -> Any:
         return dict(self._adj[vertex])
 
     def __iter__(self) -> None:
@@ -50,19 +53,3 @@ class Graph(abc.Mapping):
 
     def __str__(self) -> str:
         return str(self._adj)
-
-
-if __name__ == "__main__":
-    G = Graph()
-    # adjacent
-    (target_vertex := "bar") in G[(source_vertex := "foo")]
-    # neighbors
-    G[(vertex := "foo")].keys()
-    # add_vertex
-    G.add_vertex(vertex := "foo")
-    # remove_edge
-    G.remove_vertex(vertex := "foo")
-    # add_edge
-    G.add_edge(edge := "foobar", source_vertex="foo", target_vertex="bar")
-    # remove_edge
-    G.remove_edge(edge := "foobar", source_vertex="foo", target_vertex="bar")

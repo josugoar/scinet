@@ -2,23 +2,19 @@ import cProfile
 from functools import partial, wraps
 
 
-def profile(func=None, number=1, sort="cumtime", verbose=False):
+def profile(func=None, sort="cumtime"):
 
     if not func:
-        return partial(profile, number=number, sort=sort, verbose=verbose)
+        return partial(profile, sort)
 
     pr = cProfile.Profile()
-    rets = []
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        for _ in range(number):
-            pr.enable()
-            ret = func(*args, **kwargs)
-            pr.create_stats()
-            rets.append(ret)
-            if verbose:
-                pr.print_stats(sort)
-        return rets
+        pr.enable()
+        ret = func(*args, **kwargs)
+        pr.disable()
+        pr.print_stats(sort)
+        return ret
 
     return wrapper
