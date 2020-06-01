@@ -53,7 +53,7 @@ G.remove_edge(edge := "foobar", source_vertex="foo", target_vertex="bar")
 (target_vertex := "bar") in G[(source_vertex := "foo")]
 ```
 
-* Neighbors
+* neighbors
 ```py
 G[(vertex := "foo")].keys()
 ```
