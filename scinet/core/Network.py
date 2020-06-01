@@ -1,118 +1,149 @@
-from abc import ABCMeta
-from collections.abc import Mapping as Mappable
-from collections.abc import MutableMapping
+from collections import abc, defaultdict
 from typing import Any, Iterable, Iterator, Mapping, Tuple, Union
-
-__all__ = ["network"]
-
-
-class StatefulMapping(Mappable, metaclass=ABCMeta):
-
-    __slots__ = "_store"
-
-    def __init__(self):
-        self._store = dict()
-
-    def __iter__(self) -> Iterator[Any]:
-        return iter(self._store)
-
-    def __len__(self) -> int:
-        return len(self._store)
-
-    def __repr__(self) -> str:
-        return repr(self._store)
+from warnings import warn
 
 
-# TODO: edge directed property
-# TODO: multigraph dict list
-class network(StatefulMapping, MutableMapping):
+# NAMED TUPLES
+# TODO: Add directed/undirected edges
+# TODO: Optional dict edge key
+class Network(abc.MutableMapping):
 
-    class _adj(StatefulMapping, MutableMapping):
+    __slots__ = "_adj", "_edge", "_node"
 
-        __slots__ = "_network", "_source_vertex"
+    def __init__(self) -> None:
+        self._adj = {}
+        self._edge = {}
+        self._node = {}
 
-        def __init__(self, network: "network", source_vertex: Any):
-            super().__init__()
-            network[source_vertex] = self
-            self._network = network
-            self._source_vertex = source_vertex
+    def add_edge(self, source_node: Any, target_node: Any, edge: Any = None, **data: Any) -> Any:
+        self.add_nodes({source_node, target_node})
+        if target_node not in self._adj[source_node]:
+            self._adj[source_node][target_node] = set()
+            self._edge[(source_node, target_node, edge)] = {}
+        # if edge is None:
+        #     try:
+        #         keydict = self._adj[u][v]
+        #     except KeyError:
+        #         return 0
+        #     key = len(keydict)
+        #     while key in keydict:
+        #         key += 1
+        else:
+            edge_key = edge
+        self._adj[source_node][target_node].add(edge)
+        if data:
+            self._edge[(source_node, target_node, edge)].update(data)
+        return edge_key
 
-        def __getitem__(self, target_vertex: Any) -> Mapping[str, Any]:
-            return self._store[target_vertex]
+    def add_edges(self, e: Mapping[Tuple[Iterable[Any], Tuple[Any, Any]], Mapping[str, Any]], /) -> None:
+        edge_keys = set()
+        for edges, data in e.items():
+            edge, vertices = edges
+            edge_key = self.add_edge(edge, *vertices, data=data)
+            edge_keys.add(edge_key)
+        return edge_keys
 
-        def __setitem__(self, target_vertex: Any, data: Mapping[str, Any]) -> None:
+    def add_node(self, node: Any, /, **data: Any):
+        if node not in self._node:
+            self._adj[node] = {}
+            self._node[node] = {}
+        if data:
+            self._node[node].update(data)
+
+    def add_nodes(self, n: Iterable[Union[Any, Tuple[Any, Mapping[str, Any]]]], /, **data: Any) -> None:
+        for node in n:
             try:
-                self._store[target_vertex] = dict(**data)
-                self._network[target_vertex]
-                self._network._edges[(self._source_vertex, target_vertex)] = data
-            except TypeError as e:
-                raise TypeError(f"'data: {data}' not of type 'Mapping[str, Any]'...") from e
+                node_key, node_data = node
+                if data:
+                    node_data.update(data)
+            except TypeError:
+                node_key, node_data = node, data
+            finally:
+                self.add_node(node_key, **node_data)
 
-        def __delitem__(self, target_vertex: Any) -> None:
-            del self._store[target_vertex]
-            del self._network._edges[(self._source_vertex, target_vertex)]
-
-    __slots__ = "_vertices", "_edges"
-
-    def __init__(self):
-        super().__init__()
-        self._vertices = dict()
-        self._edges = dict()
-
-    def add_vertex(self, vertex, **data):
+    def remove_edge(self, edge: Any, /, source_vertex: Any, target_vertex: Any) -> None:
         try:
-            self._vertices[vertex] = dict(**data)
-            self[vertex] = self._adj(network=self, source_vertex=vertex)
-        except TypeError as e:
-            raise TypeError(f"'data: {data}' not of type 'Mapping[str, Any]'...") from e
+            self._adj[source_vertex][target_vertex].remove(edge)
+            del self._edge[(edge, (source_vertex, target_vertex))]
+            if not self._adj[source_vertex][target_vertex]:
+                del self._adj[source_vertex][target_vertex]
+        except KeyError:
+            warn(f"'{edge=} not in '{self.__class__.__name__}'...")
 
-    def add_vertices(self, *vertices):
-        pass
+    def remove_edges(self, e: Iterable[Tuple[Any, Tuple[Any, Any]]], /) -> None:
+        for edge, vertices in e:
+            self.remove_edge(edge, *vertices)
 
-    def add_edge(self, edge, **data):
-        pass
+    def remove_node(self, node: Any, /) -> None:
+        try:
+            del self._adj[node]
+            del self._node[node]
+            for edge in self._edge:
+                source_node, target_node, _ = edge
+                if target_node is node:
+                    del self._adj[source_node][target_node]
+                    del self._edge[edge]
+        except KeyError:
+            warn(f"'{node}' not in '{self.__class__.__name__}'...")
 
-    def add_edges(self, *edges):
-        pass
+    def remove_nodes(self, n: Iterable[Any], /) -> None:
+        for node in n:
+            self.remove_node(node)
 
-    def vertices(self, data: bool = False) -> Union[Mapping[Any, Mapping[str, Any]], Iterable[Any]]:
-        return dict(self._vertices) if data else list(self._vertices)
+    def edge(self, data=False) -> Union[Mapping[Any, Mapping[str, Any]], Iterable[Any]]:
+        return dict(self._edge) if data else set(self._edge)
 
-    def edges(self, data: bool = False) -> Union[Mapping[Tuple[Any, Any], Mapping[str, Any]], Iterable[Tuple[Any, Any]]]:
-        return dict(self._edges) if data else list(self._edges)
+    def node(self, data=False) -> Union[Mapping[Any, Mapping[str, Any]], Iterable[Any]]:
+        return dict(self._node) if data else set(self._node)
 
-    def __getitem__(self, vertex: Any) -> Mapping[Any, Mapping[str, Any]]:
-        return self._store[vertex]
+    def __getitem__(self, vertex: Any) -> Mapping[Any, Iterable[Any]]:
+        if vertex not in self._node:
+            raise KeyError
+        return dict(self._adj[vertex])  # MappingView Proxy
 
     def __setitem__(self, vertex: Any, data: Mapping[str, Any]) -> None:
-        if isinstance(data, self._adj):
-            self._store[vertex] = data
-        else:
-            try:
-                self._vertices[vertex] = dict(**data)
-                self[vertex] = self._adj(network=self, source_vertex=vertex)
-            except TypeError as e:
-                raise TypeError(f"'data: {data}' not of type 'Mapping[str, Any]'...") from e
+        self.add_node(vertex, **data)
 
     def __delitem__(self, vertex: Any) -> None:
-        try:
-            del self._store[vertex]
-            del self._vertices[vertex]
-            for source_vertex, target_vertex in self.edges():
-                if source_vertex is vertex or target_vertex is vertex:
-                    del self._edges[(source_vertex, target_vertex)]
-                    if target_vertex is vertex and vertex in self:
-                        del self[source_vertex][target_vertex]
-        except KeyError as e:
-            raise KeyError(f"'vertex: {vertex}' not in 'network'...") from e
+        self.remove_node(vertex)
+
+    def __iter__(self) -> Iterator[Any]:
+        return iter(self._adj)
+
+    def __len__(self) -> int:
+        return len(self._adj)
+
+    def __str__(self) -> None:
+        return str(dict(self))
 
 
 if __name__ == "__main__":
-    G = network()
-    G[1] = {}
-    G[2] = {}
-    G[1][2] = {}
-    # G.clear()
-    print(len(G))
-    print(G.vertices())
-    print(G.edges())
+
+    def profile(func=None, number=1, sort="cumtime", verbose=False):
+
+        import cProfile
+        from functools import wraps, partial
+
+        if not func:
+            return partial(profile, number=number, sort=sort, verbose=verbose)
+
+        pr = cProfile.Profile()
+        rets = []
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for _ in range(number):
+                pr.enable()
+                ret = func(*args, **kwargs)
+                pr.disable()
+                rets.append(ret)
+                if verbose:
+                    pr.print_stats(sort)
+            return rets
+
+        return wrapper
+
+    G = Network()
+    profile(G.add_nodes, verbose=True)((i for i in range(50)), c=2, b=1)
+    # profile(G.add_edges, verbose=False)({(j, (j, j)): {"a": j} for j in range(100)})
+    print(G._node)

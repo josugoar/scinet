@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="scinet-JoshGoA",
-    version="0.2.5",
+    version="0.2.8",
     author="JoshGoA",
     description="Network science abstract data types",
     long_description=long_description,
