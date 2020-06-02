@@ -24,16 +24,16 @@ class TestNetwork(unittest.TestCase):
 
     def test_add_edge(self):
         for edge, source_vertex, target_vertex in zip(range(5), range(5), range(5)):
-            self.G.add_edge(edge, source_vertex=source_vertex, target_vertex=target_vertex)
+            self.G.add_edge(source_vertex=source_vertex, target_vertex=target_vertex, key=edge)
             self.assertIn(edge, self.G[source_vertex][target_vertex])
 
     def test_remove_edge(self):
         self.test_add_edge()
         for source_vertex, neighbors in self.G.items():
-            for target_vertex, edges in neighbors.items():
+            for target_vertex, edges in list(neighbors.items()):
                 edge_count = len(edges)
-                for edge in edges:
-                    self.G.remove_edge(edge, source_vertex=source_vertex, target_vertex=target_vertex)
+                for edge in list(edges):
+                    self.G.remove_edge(source_vertex=source_vertex, target_vertex=target_vertex, edge=edge)
                     if edge_count:
                         self.assertNotIn(target_vertex, self.G[source_vertex])
                     else:
