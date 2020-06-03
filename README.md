@@ -1,6 +1,6 @@
 # SCINET
 
-![Build](https://img.shields.io/badge/build-passing-blue) ![Author](https://img.shields.io/badge/author-JoshGoA-green) ![License](https://img.shields.io/badge/license-MIT-red) ![PyPi](https://img.shields.io/badge/pypi-v0.3.1-yellow) ![Python](https://img.shields.io/badge/python->=3.8-orange)
+![Build](https://img.shields.io/badge/build-passing-blue) ![Author](https://img.shields.io/badge/author-JoshGoA-green) ![License](https://img.shields.io/badge/license-MIT-red) ![PyPi](https://img.shields.io/badge/pypi-v0.4.9-yellow) ![Python](https://img.shields.io/badge/python->=3.8-orange)
 
 Graph theory abstract data type.
 
