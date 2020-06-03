@@ -6,6 +6,8 @@ Graph theory abstract data type.
 
 **scinet.Graph** is designed upon the [graph (abstract data type)](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)) definition and functions as a bare bones skeletal graph data mapping, containing abstract vertices and edges.
 
+Includes DiGraph and MultiGraph support, with HyperGraph capabilities.
+
 ## Installation
 
 1. Install [Python >= 3.8](https://www.python.org/downloads/)
@@ -33,29 +35,33 @@ Manipulate data
 G.add_vertex(vertex := "foo")
 ```
 
+* add_edge
+
+Edges must be assigned using hashable keys so that no name conflicts exist between source_vertex and target_vertex edges
+```py
+key = G.add_edge(source_vertex := "foo", target_vertex := "bar"[, edge := "foobar"])
+```
+
 * remove_vertex
 ```py
 G.remove_vertex(vertex := "foo")
 ```
 
-* add_edge
-```py
-G.add_edge(edge := "foobar", source_vertex="foo", target_vertex="bar")
-```
-
 * remove_edge
 ```py
-G.remove_edge(edge := "foobar", source_vertex="foo", target_vertex="bar")
+G.remove_edge(source_vertex := "foo", target_vertex := "bar"[, edge := "foobar"])")
 ```
 
 * adjacent
 ```py
 (target_vertex := "bar") in G[(source_vertex := "foo")]
+>>> True
 ```
 
 * neighbors
 ```py
-G[(vertex := "foo")].keys()
+set(G[(vertex := "foo")])
+>>> { "neighbor_1", "neighbor_2", ... }
 ```
 
 See [docs](docs/scinet.html) for further details.
@@ -66,7 +72,5 @@ See [docs](docs/scinet.html) for further details.
 
 ### TODO
 
-1. Undirected graph
-> Add "directed" mappable property to edge data
-2. Network visualization
+1. Graph visualization
 > Create "matplotlib.pyplot" supported API

@@ -1,8 +1,7 @@
 from collections import abc
-from pprint import pformat
+from json import dumps
 from typing import Any, Iterable, Iterator, Mapping, Tuple, Union
 from warnings import warn
-
 
 __all__ = ["Graph"]
 
@@ -18,30 +17,37 @@ class Graph(abc.Mapping):
         if vertex not in self._adj:
             self._adj[vertex] = {}
 
-    def add_edge(self, source_vertex: Any, target_vertex: Any, key: Any = None, **data: Any) -> Any:
+    def add_edge(self, source_vertex: Any, target_vertex: Any, /, edge: Any = None, directed: bool = False, weight: Union[int, float] = 0):
         for vertex in {source_vertex, target_vertex}:
             self.add_vertex(vertex)
         if target_vertex not in self._adj[source_vertex]:
             self._adj[source_vertex][target_vertex] = {}
-        if data.get("directed"):
-            if key not in self._adj[source_vertex][target_vertex]:
-                if key is None:
-                    key = 0
-                    while key in self._adj[source_vertex][target_vertex]:
-                        key += 1
-                self._adj[source_vertex][target_vertex][key] = {}
+        u = self._adj[source_vertex][target_vertex]
+        if directed:
+            if edge not in u:
+                if edge is None:
+                    edge = 0
+                    while edge in u:
+                        edge += 1
+                u[edge] = {}
+            elif not u[edge]["directed"]:
+                u[edge] = u[edge].copy()
         else:
             if source_vertex not in self._adj[target_vertex]:
                 self._adj[target_vertex][source_vertex] = {}
-            if not (key in self._adj[source_vertex][target_vertex] or key in self._adj[target_vertex][source_vertex]):
-                if key is None:
-                    key = 0
-                    while key in self._adj[source_vertex][target_vertex] or key in self._adj[target_vertex][source_vertex]:
-                        key += 1
-            self._adj[source_vertex][target_vertex][key] = self._adj[target_vertex][source_vertex][key] = {}
-        if data:
-            self._adj[source_vertex][target_vertex][key].update(data)
-        return key
+            v = self._adj[target_vertex][source_vertex]
+            if not (edge in u or edge in v):
+                if edge is None:
+                    edge = 0
+                    while edge in u or edge in v:
+                        edge += 1
+                u[edge] = v[edge] = {}
+            elif edge not in u and edge in v:
+                u[edge] = v[edge]
+            elif edge in u and edge not in v:
+                v[edge] = u[edge]
+        u[edge].update(directed=directed, weight=weight)
+        return edge
 
     def remove_vertex(self, vertex: Any, /) -> None:
         try:
@@ -52,24 +58,20 @@ class Graph(abc.Mapping):
         except KeyError:
             warn(f"'{vertex=}' not in '{self.__class__.__name__}'...")
 
-    def remove_edge(self, source_vertex: Any, target_vertex: Any, *data: Any, edge: Any = None) -> None:
+    def remove_edge(self, source_vertex: Any, target_vertex: Any, /, edge: Any = None) -> None:
         try:
-            if data:
-                for attr in data:
-                    if edge is None:
-                        for key in self._adj[source_vertex][target_vertex]:
-                            if attr in self._adj[source_vertex][target_vertex][key]:
-                                del self._adj[source_vertex][target_vertex][key][attr]
-                    else:
-                        if attr in self._adj[source_vertex][target_vertex][edge]:
-                            del self._adj[source_vertex][target_vertex][edge][attr]
+            if edge is None:
+                del self._adj[source_vertex][target_vertex]
             else:
-                if edge is None:
+                u = self._adj[source_vertex][target_vertex]
+                if not u[edge]["directed"]:
+                    v = self._adj[target_vertex][source_vertex]
+                    del v[edge]
+                    if not v:
+                        del self._adj[target_vertex][source_vertex]
+                del u[edge]
+                if not u:
                     del self._adj[source_vertex][target_vertex]
-                else:
-                    del self._adj[source_vertex][target_vertex][edge]
-                    if not self._adj[source_vertex][target_vertex]:
-                        del self._adj[source_vertex][target_vertex]
         except KeyError:
             warn(f"'{edge=} not in '{self.__class__.__name__}'...")
 
@@ -95,15 +97,4 @@ class Graph(abc.Mapping):
         return len(self._adj)
 
     def __str__(self) -> str:
-        return pformat(self._adj)
-
-
-if __name__ == "__main__":
-    G = Graph()
-    # for source_vertex, target_vertex in ((i, 0) for i in range(10)):
-    G.add_edge(0, 0)
-    G.add_edge(1, 0, a=1)
-    G.add_edge(2, 0)
-    G.add_edge(3, 0)
-    # G.remove_edge(0, 1, "a")
-    print(list(G.edges()))
+        return dumps(self._adj, indent=2)
