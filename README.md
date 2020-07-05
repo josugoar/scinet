@@ -73,4 +73,4 @@ See [docs](docs/scinet.html) for further details.
 ### TODO
 
 1. Graph visualization
-> Create "matplotlib.pyplot" supported API
+2. Create "matplotlib.pyplot" supported API
