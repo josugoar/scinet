@@ -2,6 +2,6 @@ objectdb
 .pypirc
 build/
 dist/
-.venv/
 __pycache__/
 scinet_JoshGoA.egg-info/
+.devcontainer/
