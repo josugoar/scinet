@@ -1,24 +1,32 @@
-# scinet
+<p align="center">
+  <img alt="scinet" src="assets/scinet.svg" />
+</p>
 
-![Build](https://img.shields.io/badge/build-passing-blue) ![Author](https://img.shields.io/badge/author-JoshGoA-green) ![License](https://img.shields.io/badge/license-MIT-red) ![PyPi](https://img.shields.io/badge/pypi-v0.4.9-yellow) ![Python](https://img.shields.io/badge/python->=3.8-orange)
+<p align="center">
+  <img alt="build" src="https://img.shields.io/badge/build-passing-blue" />
+  <img alt="author" src="https://img.shields.io/badge/author-josugoar-green" />
+  <img alt="license" src="https://img.shields.io/badge/license-MIT-red" />
+  <img alt="pypi" src="https://img.shields.io/badge/pypi-v0.4.9-yellow" />
+  <img alt="python" src="https://img.shields.io/badge/python->=3.8-orange" />
+</p>
 
-<img src="assets/scinet.svg" align="right" />
+<h1></h1>
 
-Graph theory abstract data type.
+> Graph theory abstract data type.
 
 **scinet.Graph** is designed upon the [graph (abstract data type)](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)) definition and functions as a bare bones skeletal graph data mapping, containing abstract vertices and edges.
 
 Includes DiGraph and MultiGraph support, with HyperGraph capabilities.
 
-## Installation
+# Installation
 
 1. Install [Python >= 3.8](https://www.python.org/downloads/)
 2. Install [scinet]()
 ```sh
-$ pip install scinet
+$ pip install scinet-JoshGoA
 ```
 
-## Usage
+# Usage
 
 Import **scinet**
 ```py
@@ -68,11 +76,6 @@ set(G[(vertex := "foo")])
 
 See [docs](docs/scinet.html) for further details.
 
-## Contributors
+# Contributors
 
 * **JoshGoA** - *Main contributor* - [GitHub](https://github.com/JoshGoA)
-
-### TODO
-
-1. Graph visualization
-2. Create "matplotlib.pyplot" supported API
