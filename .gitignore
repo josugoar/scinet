@@ -1,7 +1,4 @@
-objectdb
-.pypirc
 build/
 dist/
 __pycache__/
-scinet_JoshGoA.egg-info/
-.devcontainer/
+*.egg-info/
