@@ -1,13 +1,13 @@
 <p align="center">
-  <img alt="scinet" src="assets/scinet.svg" />
+  <img src="assets/scinet.png" alt="scinet" width="640" height="320" />
 </p>
 
 <p align="center">
-  <img alt="build" src="https://img.shields.io/badge/build-passing-blue" />
-  <img alt="author" src="https://img.shields.io/badge/author-josugoar-green" />
-  <img alt="license" src="https://img.shields.io/badge/license-MIT-red" />
-  <img alt="pypi" src="https://img.shields.io/badge/pypi-v0.4.9-yellow" />
-  <img alt="python" src="https://img.shields.io/badge/python->=3.8-orange" />
+  <img src="https://img.shields.io/badge/build-passing-blue" alt="build" />
+  <img src="https://img.shields.io/badge/author-josugoar-green" alt="author" />
+  <img src="https://img.shields.io/badge/license-MIT-red" alt="license" />
+  <img src="https://img.shields.io/badge/pypi-v0.4.9-yellow" alt="pypi" />
+  <img src="https://img.shields.io/badge/python->=3.8-orange" alt="python" />
 </p>
 
 <h1></h1>
