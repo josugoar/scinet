@@ -5,13 +5,13 @@ with open("README.md") as f:
 
 setuptools.setup(
     name="scinet-josugoar",
-    version="0.5.0",
+    version="0.5.5",
     description="Network science abstract data types",
     author="josugoar",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/josugoar/scinet",
-    download_url="https://github.com/josugoar/scinet/archive/v0.5.0.tar.gz",
+    download_url="https://github.com/josugoar/scinet/archive/v0.5.5.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
