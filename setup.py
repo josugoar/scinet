@@ -1,7 +1,7 @@
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+with open("README.md") as f:
+    long_description = f.read()
 
 setuptools.setup(
     name="scinet-josugoar",
@@ -18,7 +18,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    keywords="algorithms data-structures docker graph library pipenv python",
+    keywords="algorithms data-structures docker graph library pipenv python unittest",
     project_urls={"Source": "https://github.com/josugoar/scinet"},
     python_requires=">=3.8",
 )
