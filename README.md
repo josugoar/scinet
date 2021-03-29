@@ -23,7 +23,7 @@ Includes DiGraph and MultiGraph support, with HyperGraph capabilities.
 1. Install [Python >= 3.8](https://www.python.org/downloads/)
 2. Install [scinet]()
 ```sh
-$ pip install scinet-JoshGoA
+$ pip install scinet-josugoar
 ```
 
 # Usage
