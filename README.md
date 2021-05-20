@@ -68,10 +68,10 @@ G.remove_edge(source_vertex := "foo", target_vertex := "bar"[, edge := "foobar"]
 >>> True
 ```
 
-* neighbors
+* neighbours
 ```py
 set(G[(vertex := "foo")])
->>> { "neighbor_1", "neighbor_2", ... }
+>>> { "neighbour_1", "neighbour_2", ... }
 ```
 
 See [docs](docs/scinet.html) for further details.
