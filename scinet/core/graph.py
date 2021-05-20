@@ -132,8 +132,8 @@ class Graph(abc.Mapping):
         Yields:
             Union[Tuple[Any, Any], Tuple[Any, Any, Any]]
         """
-        for source_vertex, neighbors in self._adj.items():
-            for target_vertex, edges in neighbors.items():
+        for source_vertex, neighbours in self._adj.items():
+            for target_vertex, edges in neighbours.items():
                 if key:
                     for edge in edges:
                         yield source_vertex, target_vertex, edge
@@ -141,7 +141,7 @@ class Graph(abc.Mapping):
                     yield source_vertex, target_vertex
 
     def __getitem__(self, vertex: Any, /) -> Mapping[Any, Mapping[Any, Mapping[str, Any]]]:
-        """Return Graph vertex neighbors.
+        """Return Graph vertex neighbours.
 
         Arguments:
             vertex {Any}
