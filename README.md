@@ -12,7 +12,7 @@
 
 <h1></h1>
 
-> Graph theory abstract data type.
+> Network science abstract data types
 
 **scinet.Graph** is designed upon the [graph (abstract data type)](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)) definition and functions as a bare bones skeletal graph data mapping, containing abstract vertices and edges.
 
