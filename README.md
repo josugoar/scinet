@@ -1,3 +1,5 @@
+# scinet
+
 <p align="center">
   <img src="assets/scinet.png" alt="scinet" width="640" height="320" />
 </p>
@@ -18,7 +20,7 @@
 
 Includes DiGraph and MultiGraph support, with HyperGraph capabilities.
 
-# Installation
+## Installation
 
 1. Install [Python >= 3.8](https://www.python.org/downloads/)
 2. Install [scinet]()
@@ -26,7 +28,7 @@ Includes DiGraph and MultiGraph support, with HyperGraph capabilities.
 $ pip install scinet-josugoar
 ```
 
-# Usage
+## Usage
 
 Import **scinet**
 ```py
@@ -76,6 +78,6 @@ set(G[(vertex := "foo")])
 
 See [docs](docs/scinet.html) for further details.
 
-# Contributors
+## Contributors
 
 * **josugoar** - *Main contributor* - [GitHub](https://github.com/josugoar)
