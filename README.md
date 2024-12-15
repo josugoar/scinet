@@ -77,7 +77,3 @@ set(G[(vertex := "foo")])
 ```
 
 See [docs](docs/scinet.html) for further details.
-
-## Contributors
-
-* **josugoar** - *Main contributor* - [GitHub](https://github.com/josugoar)
