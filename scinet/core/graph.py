@@ -1,16 +1,16 @@
-from collections import abc
+from collections.abc import Iterator, Mapping
 from json import dumps
-from typing import Any, Iterable, Iterator, Mapping, Tuple, Union
+from typing import Any
 from warnings import warn
 
 __all__ = ["Graph"]
 
 
-class Graph(abc.Mapping):
+class Graph(Mapping):
     """Graph theory abstract data type.
 
     Extends:
-        abc.Mapping
+        Mapping
     """
 
     __slots__ = "_adj"
@@ -18,7 +18,7 @@ class Graph(abc.Mapping):
     def __init__(self) -> None:
         """Create new adjacency list Graph.
         """
-        self._adj = {}
+        self._adj: dict[Any, dict[str, Any]] = {}
 
     def add_vertex(self, vertex: Any, /) -> None:
         """Add vertex to Graph if not already present.
@@ -29,7 +29,15 @@ class Graph(abc.Mapping):
         if vertex not in self._adj:
             self._adj[vertex] = {}
 
-    def add_edge(self, source_vertex: Any, target_vertex: Any, /, edge: Any = None, directed: bool = False, weight: Union[int, float] = 0):
+    def add_edge(
+        self,
+        source_vertex: Any,
+        target_vertex: Any,
+        /,
+        edge: Any = None,
+        directed: bool = False,
+        weight: float = 0,
+    ) -> Any:
         """Add edge to Graph if not present and update directed and weight properties.
 
         Arguments:
@@ -39,7 +47,7 @@ class Graph(abc.Mapping):
         Keyword Arguments:
             edge {Any} -- Automatically generated if not provided (default: {None})
             directed {bool} -- (default: {False})
-            weight {Union[int, float]} -- (default: {0})
+            weight {float} -- (default: {0})
 
         Returns:
             Any -- Edge key
@@ -89,7 +97,9 @@ class Graph(abc.Mapping):
         except KeyError:
             warn(f"'{vertex=}' not in '{self.__class__.__name__}'...")
 
-    def remove_edge(self, source_vertex: Any, target_vertex: Any, /, edge: Any = None) -> None:
+    def remove_edge(
+        self, source_vertex: Any, target_vertex: Any, /, edge: Any = None
+    ) -> None:
         """Remove edge from Graph or all source_vertex target_vertex edges if not provided.
 
         Arguments:
@@ -113,7 +123,7 @@ class Graph(abc.Mapping):
                 if not u:
                     del self._adj[source_vertex][target_vertex]
         except KeyError:
-            warn(f"'{edge=} not in '{self.__class__.__name__}'...")
+            warn(f"'{edge=}' not in '{self.__class__.__name__}'...")
 
     def vertices(self) -> Iterator[Any]:
         """Return Graph vertices.
@@ -123,14 +133,16 @@ class Graph(abc.Mapping):
         """
         return iter(self._adj)
 
-    def edges(self, key: bool = False) -> Iterator[Union[Tuple[Any, Any], Tuple[Any, Any, Any]]]:
+    def edges(
+        self, key: bool = False
+    ) -> Iterator[tuple[Any, Any] | tuple[Any, Any, Any]]:
         """Return Graph edges.
 
         Keyword Arguments:
             key {bool} -- (default: {False})
 
         Yields:
-            Union[Tuple[Any, Any], Tuple[Any, Any, Any]]
+            tuple[Any, Any] | tuple[Any, Any, Any]
         """
         for source_vertex, neighbours in self._adj.items():
             for target_vertex, edges in neighbours.items():
@@ -140,14 +152,14 @@ class Graph(abc.Mapping):
                 else:
                     yield source_vertex, target_vertex
 
-    def __getitem__(self, vertex: Any, /) -> Mapping[Any, Mapping[Any, Mapping[str, Any]]]:
+    def __getitem__(self, vertex: Any, /) -> Mapping[Any, Mapping[str, Any]]:
         """Return Graph vertex neighbours.
 
         Arguments:
             vertex {Any}
 
         Returns:
-            Mapping[Any, Mapping[Any, Mapping[str, Any]]]
+            Mapping[Any, Mapping[str, Any]]
         """
         return dict(self._adj)[vertex]
 
@@ -173,4 +185,4 @@ class Graph(abc.Mapping):
         Returns:
             str
         """
-        return dumps(self._adj, indent=2)
+        return dumps(self._adj)
